@@ -14,12 +14,13 @@ import os
 from data_sheet import get_sheet,session,Jobmessage
 from job import bp as job_bp
 from user import bp as user_bp
+from tool import bp as tool_bp
 
 
 app = Flask(__name__)
 app.register_blueprint(job_bp,url_prefix='/job')
 app.register_blueprint(user_bp,url_prefix='/user')
-
+app.register_blueprint(tool_bp,url_prefix='/tool')
 
 if __name__ == '__main__':
     get_sheet()

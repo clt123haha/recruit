@@ -19,6 +19,7 @@ class Jobmessage(Base):
     place = Column(String(50))
     im1 =  Column(String(20))
     im2 = Column(String(20))
+    publisher = Column(String(130))
 
     def __repr__(self):
         ID = self.id
@@ -27,17 +28,38 @@ class Jobmessage(Base):
         MONEY = self.money
         IM1 = self.im1
         IM2 = self.im2
-        return f"User: title: {TITLE},money:{MONEY},place: {PLACE},im1:{IM1},im2:{IM2},id:{ID}"
+        PUBLISHER = self.publisher
+        return f"User: title: {TITLE},money:{MONEY},place: {PLACE},im1:{IM1},im2:{IM2},id:{ID},publisher:{PUBLISHER}"
 
 class User(Base):
     __tablename__ = "user"
-    openid = Column(String(130),primary_key=True)
+    openid = Column(Integer,primary_key=True)
     collection = Column(String(255))
+    email = Column(String(50))
+    phone = Column(String(20))
+    password = Column(String(50))
 
     def __repr__(self):
         OPENID = self.openid
         COLLECTION = self.collection
-        return f"User: openid:{OPENID},collection:{COLLECTION}"
+        EMAIL = self.email
+        PHONE = self.phone
+        PASSWORD = self.password
+        return f"User: openid:{OPENID},collection:{COLLECTION},email:{EMAIL},phone:{PHONE},password:{PASSWORD}"
+
+class ShortMessage(Base):
+    __tablename__ = "shortMessage"
+    id = Column(Integer, primary_key=True)
+    phonenumber = Column(String(20))
+    meaasge = Column(String(10))
+    time = Column(String(30))
+
+    def __repr__(self):
+        ID = self.id
+        PHONENUMBER = self.phonenumber
+        MESSAGE = self.meaasge
+        TIME = self.time
+        return f"User: phonenumber: {PHONENUMBER},message:{MESSAGE},time:{TIME},id: {ID}"
 
 
 def get_sheet():
