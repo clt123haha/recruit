@@ -4,7 +4,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
 
-engine = create_engine("mysql+pymysql://root:yueye13084030!@gz-cynosdbmysql-grp-ro694ctz.sql.tencentcdb.com:28492/exchange", echo=True)
+engine = create_engine("mysql+pymysql://root:root@localhost:3306/recruit", echo=True)
 Session = sessionmaker(bind=engine)
 session = Session()
 
@@ -27,7 +27,17 @@ class Jobmessage(Base):
         MONEY = self.money
         IM1 = self.im1
         IM2 = self.im2
-        return f"User: title: {TITLE},money:{MONEY},place: {PLACE},im1:{IM2},im2:{IM2},id:{ID}"
+        return f"User: title: {TITLE},money:{MONEY},place: {PLACE},im1:{IM1},im2:{IM2},id:{ID}"
+
+class User(Base):
+    __tablename__ = "user"
+    openid = Column(String(130),primary_key=True)
+    collection = Column(String(255))
+
+    def __repr__(self):
+        OPENID = self.openid
+        COLLECTION = self.collection
+        return f"User: openid:{OPENID},collection:{COLLECTION}"
 
 
 def get_sheet():
