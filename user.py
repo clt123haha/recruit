@@ -41,7 +41,7 @@ def get_message():
         data.append({"title": result.title, "money": result.money, "place": result.place, "im": [result.im1, result.im2]})
     return {"code": 200, "message": "success", "data": data}
 
-@bp.route("/enroll")
+@bp.route("/enroll",methods=['POST'])
 def enroll():
     email = request.json.get("email")
     phone = request.json.get("phone")
@@ -88,3 +88,19 @@ def check_password():
     if result.password != password:
         return {'code': 303, 'message': '密码错误'}
     return {'code':200,'message':'success','data':{'id':result.id}}
+
+@bp.route("/new_collection",methods=['POST'])
+def new_collection():
+    job_id = request.headers.get("job_id")
+    user_id = request.json.get("user_id")
+    if job_id is None or user_id is None:
+        return {"code":306,"message":"信息不全"}
+    user = session.query(User).filter(User.id == user_id).first()
+    if user == None:
+        return {'code': 302, 'message': '账号不存在'}
+    collection = user.collection
+    collection += '/'+str(job_id)
+    user.collection = collection
+    session.add(user)
+    session.commit()
+    return {"code":200,"message":"success"}

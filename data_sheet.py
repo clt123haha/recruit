@@ -33,19 +33,19 @@ class Jobmessage(Base):
 
 class User(Base):
     __tablename__ = "user"
-    openid = Column(Integer,primary_key=True)
+    id = Column(Integer,primary_key=True)
     collection = Column(String(255))
     email = Column(String(50))
     phone = Column(String(20))
     password = Column(String(50))
 
     def __repr__(self):
-        OPENID = self.openid
+        ID = self.id
         COLLECTION = self.collection
         EMAIL = self.email
         PHONE = self.phone
         PASSWORD = self.password
-        return f"User: openid:{OPENID},collection:{COLLECTION},email:{EMAIL},phone:{PHONE},password:{PASSWORD}"
+        return f"User: id:{ID},collection:{COLLECTION},email:{EMAIL},phone:{PHONE},password:{PASSWORD}"
 
 class ShortMessage(Base):
     __tablename__ = "shortMessage"
