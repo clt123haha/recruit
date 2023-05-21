@@ -16,15 +16,16 @@ from data_sheet import get_sheet,session,Jobmessage
 
 bp = Blueprint("job",__name__,static_folder='/job')
 
-@bp.route("/get_postings")
+@bp.route("/put_postings",methods=["POST"])
 def get():
     title = request.json.get('text').get('title')
     money= request.json.get('text').get('money')
     im = request.json.get('text').get('im')
     place = request.json.get('text').get('place')
+    publisher = request.json.get("publisher")
     if title is None or money is None or im[0] is None or im[1] is None or place is None:
         return jsonify(dict(code=101,message="招聘信息不全"))
-    newJob = Jobmessage(title=title,money=money,im1=im[0],im2=im[1],place=place)
+    newJob = Jobmessage(title=title,money=money,im1=im[0],im2=im[1],place=place,publisher=publisher)
     session.add(newJob)
     session.commit()
     return jsonify(dict(code=200, message="success"))

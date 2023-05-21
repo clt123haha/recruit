@@ -80,7 +80,7 @@ def check_password():
     account = request.json.get("account")
     password = request.json.get("password")
     indonesia = request.json.get("Indonesia")
-    if account is None or password is None or indonesia is None:
+    if account is None or password is None:
         return {"code":306,"message":"信息不全"}
     result = session.query(User).filter(or_(User.phone==account, User.email==account)).first()
     if result == None:
@@ -178,11 +178,11 @@ def getResume():
                 mark = string_list.index(line[:line.__len__()-1])
                 continue
             if mark == 0:
-                gender = line[1:line.__len__() -1]
+                gender = line[:line.__len__() -1]
             if mark == 1:
-                intention = line[1:line.__len__() -1]
+                intention = line[:line.__len__() -1]
             if mark == 2:
-                if line[0] == '#':
+                if line[0] == '#' or appraise.__len__() == 0:
                     temp = line[1:]
                     if temp[temp.__len__() -1] == '\n':
                         temp = temp[:temp.__len__() -1]
@@ -194,7 +194,7 @@ def getResume():
                     temp += line
                     appraise.append(temp)
             if mark == 3:
-                if line[0] == '#':
+                if line[0] == '#' or educational_background.__len__() == 0:
                     temp = line[1:]
                     if temp[temp.__len__() -1] == '\n':
                         temp = temp[:temp.__len__() -1]
@@ -206,7 +206,7 @@ def getResume():
                     temp += line
                     educational_background.append(temp)
             if mark == 4:
-                if line[0] == '#':
+                if line[0] == '#' or work_experience.__len__() == 0:
                     temp = line[1:]
                     if temp[temp.__len__() -1] == '\n':
                         temp = temp[:temp.__len__() -1]
@@ -218,7 +218,7 @@ def getResume():
                     temp += line
                     work_experience.append(temp)
             if mark == 5:
-                if line[0] == '#':
+                if line[0] == '#' or school_experience.__len__() == 0:
                     temp = line[1:]
                     if temp[temp.__len__() -1] == '\n':
                         temp = temp[:temp.__len__() -1]
@@ -230,7 +230,7 @@ def getResume():
                     temp += line
                     school_experience.append(temp)
             if mark == 6:
-                if line[0] == '#':
+                if line[0] == '#' or certificate.__len__() == 0:
                     temp = line[1:]
                     if temp[temp.__len__() -1] == '\n':
                         temp = temp[:temp.__len__() -1]
@@ -242,7 +242,7 @@ def getResume():
                     temp += line
                     certificate.append(temp)
             if mark == 7:
-                if line[0] == '#':
+                if line[0] == '#' or skill.__len__() == 0:
                     temp = line[1:]
                     if temp[temp.__len__() -1] == '\n':
                         temp = temp[:temp.__len__() -1]
