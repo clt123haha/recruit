@@ -21,14 +21,16 @@ bp = Blueprint("user",__name__,static_folder='/user')
 
 @bp.route("/get_collection")
 def get_collection():
-    id = request.json.get("id")
-    result = session.query(User).filter(User.openid == id).first()
+    id = request.args.get("id")
+    result = session.query(User).filter(User.id == id).first()
     if result is None:
         return {"code":102,"message":"用户不存在"}
     collection = result.collection.split('/')
     data = []
     for c in collection:
         job = session.query(Jobmessage).filter(Jobmessage.id == int(c)).first()
+        if job is None:
+            continue
         data.append({"title":job.title,"money":job.money,"place":job.place,"im":[job.im1,job.im2]})
     return {"code":200,"message":"success","data":data}
 
