@@ -11,12 +11,16 @@ from PIL import Image, ImageDraw, ImageFont, ImageFilter
 from flask import Flask,Blueprint
 from random import randint
 import os
-from data_sheet import get_sheet,session,Jobmessage
 
+from flask_cors import cross_origin
+
+from data_sheet import get_sheet,session,Jobmessage
+from crose import allow_cross_domain
 
 bp = Blueprint("job",__name__,static_folder='/job')
 
 @bp.route("/put_postings",methods=["POST"])
+@allow_cross_domain
 def get():
     title = request.json.get('text').get('title')
     money= request.json.get('text').get('money')
@@ -31,6 +35,7 @@ def get():
     return jsonify(dict(code=200, message="success"))
 
 @bp.route("/return_message")
+@cross_origin()
 def get_message():
     query_result = session.query(Jobmessage).all()
     message = []

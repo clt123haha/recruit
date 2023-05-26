@@ -2,6 +2,7 @@ import requests
 from flask import Blueprint, request, session, jsonify
 from sqlalchemy import or_
 
+from crose import allow_cross_domain
 from data_sheet import User
 import base64
 import random
@@ -70,6 +71,7 @@ def generate_random_str():
 
 
 @bp.route('/mobile_text')
+@allow_cross_domain
 def test():
     phone = request.json.get("phone")
     if phone is None:
