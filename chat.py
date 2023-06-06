@@ -18,14 +18,17 @@ from crose import allow_cross_domain
 from data_sheet import get_sheet,session,Jobmessage
 from data_sheet import User
 from sqlalchemy.sql import or_
-from tool import check_message
+from tool import check_message,append
 
 
 bp = Blueprint("chat",__name__,static_folder='/chat')
 
 @bp.route('/sendmessage')
 def sendmessage():
-    id = request.json.get("userid")
+    id1 = request.json.get("userid")
+    id2 = request.json.get("talkto")
     message = request.json.get("message")
-    sid = session.query(User).filter(User.id == id).first().sid
+    sid = session.query(User).filter(User.id == id2).first().sid
     emit("sendmeaasge",message,room = sid)
+    append(id2,id1,message)
+    append(id1, id1, message)

@@ -13,6 +13,7 @@ from PIL import Image, ImageDraw, ImageFont, ImageFilter
 from flask import Flask,Blueprint
 from random import randint
 import os
+from tool import append
 
 from flask_cors import CORS
 from data_sheet import  User
@@ -42,16 +43,20 @@ def test_connect(data):
     session.commit()
     emit('connect response', {'data': 'Connected'})
 
+
 @socketio.on('disconnect')
 def test_disconnect():
     print('Client disconnected')
 
 @socketio.on('getmessage')
 def getmessage(data):
-    id = data["userid"]
+    id1 = request.json.get("userid")
+    id2 = request.json.get("talkto")
     message = data["message"]
-    sid = session.query(User).filter(User.id == id).first().sid
+    sid = session.query(User).filter(User.id == id1).first().sid
     emit("getmeaasge", message, room=sid)
+    append(id2, id1, message)
+    append(id1, id1, message)
 
 
 if __name__ == '__main__':
