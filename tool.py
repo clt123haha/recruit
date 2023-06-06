@@ -71,7 +71,6 @@ def generate_random_str():
 
 
 @bp.route('/mobile_text')
-@allow_cross_domain
 def test():
     phone = request.json.get("phone")
     if phone is None:

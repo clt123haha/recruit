@@ -22,7 +22,6 @@ from tool import check_message
 bp = Blueprint("user",__name__,static_folder='/user')
 
 @bp.route("/get_collection")
-@allow_cross_domain
 def get_collection():
     id = request.args.get("id")
     result = session.query(User).filter(User.id == id).first()
@@ -38,7 +37,6 @@ def get_collection():
     return {"code":200,"message":"success","data":data}
 
 @bp.route("/get_push")
-@allow_cross_domain
 def get_message():
     id = request.json.get("id")
     results = session.query(Jobmessage).filter(Jobmessage.publisher == id).all()
@@ -48,7 +46,6 @@ def get_message():
     return {"code": 200, "message": "success", "data": data}
 
 @bp.route("/enroll",methods=['POST'])
-@allow_cross_domain
 def enroll():
     email = request.json.get("email")
     phone = request.json.get("phone")
@@ -68,7 +65,6 @@ def enroll():
     return {"code":205,"message":"验证码错误"}
 
 @bp.route('/login/moblie',methods=['POST'])
-@allow_cross_domain
 def moblie_login():
     indonesia = requests.get("Indonesia")
     message = request.json.get("message")
@@ -84,7 +80,6 @@ def moblie_login():
         return {'code': 305, 'message': '手机验证码错误'}
 
 @bp.route('/login/password',methods=['POST'])
-@allow_cross_domain
 def check_password():
     account = request.json.get("account")
     password = request.json.get("password")
@@ -99,7 +94,6 @@ def check_password():
     return {'code':200,'message':'success','data':{'id':result.id}}
 
 @bp.route("/newcollection",methods=['POST'])
-@allow_cross_domain
 def new_collection():
     job_id = request.headers.get("job_id")
     user_id = request.json.get("user_id")
@@ -116,7 +110,6 @@ def new_collection():
     return {"code":200,"message":"success"}
 
 @bp.route("/putresume",methods=["POST"])
-@allow_cross_domain
 def putResume():
     user_id = request.json.get("user_id")
     gender = request.json.get("gender")
@@ -165,7 +158,6 @@ def putResume():
     return {"code":200,"message":"success"}
 
 @bp.route("/getresume")
-@allow_cross_domain
 def getResume():
     mark = -1
     data = []

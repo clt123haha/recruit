@@ -19,7 +19,12 @@ class Jobmessage(Base):
     place = Column(String(50))
     im1 =  Column(String(20))
     im2 = Column(String(20))
-    publisher = Column(String(130))
+
+    name = Column(String(50))
+    work = Column(String(20))
+    time = Column(String(50))
+    number = Column(String(20))
+    company = Column(String(50))
 
     def __repr__(self):
         ID = self.id
@@ -28,8 +33,13 @@ class Jobmessage(Base):
         MONEY = self.money
         IM1 = self.im1
         IM2 = self.im2
-        PUBLISHER = self.publisher
-        return f"User: title: {TITLE},money:{MONEY},place: {PLACE},im1:{IM1},im2:{IM2},id:{ID},publisher:{PUBLISHER}"
+        NAME = self.name
+        WORK = self.work
+        TIME = self.time
+        NUMBER = self.number
+        COMPANY = self.number
+
+        return f"User: title: {TITLE},money:{MONEY},place: {PLACE},im1:{IM1},im2:{IM2},id:{ID},name:{NAME},work:{WORK},time:{TIME},number:{NUMBER},company:{COMPANY}"
 
 class User(Base):
     __tablename__ = "user"
@@ -38,6 +48,7 @@ class User(Base):
     email = Column(String(50))
     phone = Column(String(20))
     password = Column(String(50))
+    sid = Column(Integer)
 
     def __repr__(self):
         ID = self.id
@@ -45,7 +56,9 @@ class User(Base):
         EMAIL = self.email
         PHONE = self.phone
         PASSWORD = self.password
-        return f"User: id:{ID},collection:{COLLECTION},email:{EMAIL},phone:{PHONE},password:{PASSWORD}"
+        SID = self.sid
+
+        return f"User: id:{ID},collection:{COLLECTION},email:{EMAIL},phone:{PHONE},password:{PASSWORD},sid:{SID}"
 
 class ShortMessage(Base):
     __tablename__ = "shortMessage"
