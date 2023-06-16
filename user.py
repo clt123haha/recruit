@@ -112,16 +112,23 @@ def new_collection():
 @bp.route("/putresume",methods=["POST"])
 def putResume():
     user_id = request.json.get("user_id")
+    name = request.json.get("name")
     gender = request.json.get("gender")
+    age = request.json.get("age")
+    place = request.json.get("place")
+    degree = request.json.get("degree")
+    major = request.json.get("major")
+    courses = request.json.get("courses")
+    experience = request.json.get("experience")
     intention = request.json.get("intention")
     appraise = request.json.get("appraise")
-    educational_background = request.json.get("educational_background")
-    work_experience = request.json.get("work_experience")
-    school_experience = request.json.get("school_experience")
+    phone = request.json.get("phone")
+    email = request.json.get("email")
+    personal_projects = request.json.get("Personal_projects")
+    enterprise_projects = request.json.get("enterprise_projects")
     certificate = request.json.get("certificate")
     skill = request.json.get("skill")
-    if gender is None or school_experience is None or intention is None or appraise is None or educational_background is None or work_experience is None or certificate is None or skill is None:
-        {"code": 306, "message": "信息不全"}
+    work_experience = request.json.get("work_experience")
     user = session.query(User).filter(User.id == user_id).first()
     if user == None:
         return {'code': 302, 'message': '账号不存在'}
@@ -130,28 +137,47 @@ def putResume():
         os.makedirs(save_path)
     try:
         f = open(save_path + '\\' + str(user.id) +".txt",'w')
+        f.write("姓名\n")
+        f.write(name + '\n')
         f.write("性别\n")
         f.write(gender+'\n')
-        f.write("求职意向\n")
+        f.write("年龄\n")
+        f.write(age+ '\n')
+        f.write("现居\n")
+        f.write(place + '\n')
+        f.write("学历\n")
+        f.write(degree + '\n')
+        f.write("学校专业\n")
+        f.write(major + '\n')
+        f.write("主修课程\n")
+        f.write(courses + '\n')
+        f.write("电话\n")
+        f.write(phone + '\n')
+        f.write("邮箱\n")
+        f.write(email + '\n')
+        f.write("期望职业\n")
         f.write(intention+'\n')
-        f.write("自我评价\n")
-        for i in appraise:
-            f.write(intention+'\n')
-        f.write("教育背景\n")
-        for i in educational_background:
-            f.write('#' + i + '\n')
-        f.write("工作经历\n")
+        f.write("工作经验\n")
         for i in work_experience:
-             f.write('#' + i + '\n')
-        f.write("在校经历\n")
-        for i in school_experience:
             f.write('#' + i + '\n')
-        f.write("资格证书\n")
-        for i in certificate:
-            f.write('#' + i + '\n')
-        f.write("职业技能\n")
+        f.write("技能\n")
         for i in skill:
             f.write('#' + i + '\n')
+        f.write("企业项目\n")
+        for i in enterprise_projects:
+            f.write('#' + i + '\n')
+        f.write("个人项目\n")
+        for i in personal_projects:
+            f.write('#' + i + '\n')
+        f.write("荣誉\n")
+        for i in certificate:
+            f.write('#' + i + '\n')
+        f.write("项目经验\n")
+        for i in experience:
+            f.write('#' + i + '\n')
+        f.write("自我评价\n")
+        for i in appraise:
+            f.write(i+'\n')
     except Exception as e:
         print(e)
         return {"code": 307, "message": "信息储存失败，请稍后再试"}
@@ -160,14 +186,14 @@ def putResume():
 @bp.route("/getresume")
 def getResume():
     mark = -1
-    data = []
-    appraise= []
-    educational_background = []
+    geren = []
     work_experience = []
-    school_experience = []
-    certificate = []
+    rongyu = []
+    xiangmu = []
+    ziwo = []
     skill = []
-    string_list = ["性别","求职意向","自我评价","教育背景","工作经历","在校经历","资格证书","职业技能"]
+    qiye = []
+    string_list = ["姓名","性别","年龄","现居","学历","学校专业","主修课程","电话","邮箱","期望职业","工作经验","技能","企业项目","个人项目","荣誉","项目经验","自我评价"]
     user_id = request.json.get("user_id")
     user = session.query(User).filter(User.id == user_id).first()
     if user == None:
@@ -182,34 +208,26 @@ def getResume():
                 mark = string_list.index(line[:line.__len__()-1])
                 continue
             if mark == 0:
-                gender = line[:line.__len__() -1]
+                name = line[:line.__len__() - 1]
             if mark == 1:
-                intention = line[:line.__len__() -1]
+                gender = line[:line.__len__() -1]
             if mark == 2:
-                if line[0] == '#' or appraise.__len__() == 0:
-                    temp = line[1:]
-                    if temp[temp.__len__() -1] == '\n':
-                        temp = temp[:temp.__len__() -1]
-                    appraise.append(temp)
-                else:
-                    temp = appraise.pop()
-                    if line[line.__len__() -1] == '\n':
-                        line = line[:line.__len__() - 1]
-                    temp += line
-                    appraise.append(temp)
+                age = line[:line.__len__() -1]
             if mark == 3:
-                if line[0] == '#' or educational_background.__len__() == 0:
-                    temp = line[1:]
-                    if temp[temp.__len__() -1] == '\n':
-                        temp = temp[:temp.__len__() -1]
-                    educational_background.append(temp)
-                else:
-                    temp = educational_background.pop()
-                    if line[line.__len__() - 1] == '\n':
-                        line = line[:line.__len__() - 1]
-                    temp += line
-                    educational_background.append(temp)
+                place = line[:line.__len__() - 1]
             if mark == 4:
+                xueli = line[:line.__len__() -1]
+            if mark == 5:
+                zhaunye = line[:line.__len__() -1]
+            if mark == 6:
+                zhuxiu = line[:line.__len__() -1]
+            if mark == 7:
+                phone = line[:line.__len__() -1]
+            if mark == 8:
+                email = line[:line.__len__() -1]
+            if mark == 9:
+                intention = line[:line.__len__() -1]
+            if mark == 10:
                 if line[0] == '#' or work_experience.__len__() == 0:
                     temp = line[1:]
                     if temp[temp.__len__() -1] == '\n':
@@ -217,35 +235,11 @@ def getResume():
                     work_experience.append(temp)
                 else:
                     temp = work_experience.pop()
-                    if line[line.__len__() - 1] == '\n':
+                    if line[line.__len__() -1] == '\n':
                         line = line[:line.__len__() - 1]
                     temp += line
                     work_experience.append(temp)
-            if mark == 5:
-                if line[0] == '#' or school_experience.__len__() == 0:
-                    temp = line[1:]
-                    if temp[temp.__len__() -1] == '\n':
-                        temp = temp[:temp.__len__() -1]
-                    school_experience.append(temp)
-                else:
-                    temp = school_experience.pop()
-                    if line[line.__len__() - 1] == '\n':
-                        line = line[:line.__len__() - 1]
-                    temp += line
-                    school_experience.append(temp)
-            if mark == 6:
-                if line[0] == '#' or certificate.__len__() == 0:
-                    temp = line[1:]
-                    if temp[temp.__len__() -1] == '\n':
-                        temp = temp[:temp.__len__() -1]
-                    certificate.append(temp)
-                else:
-                    temp = certificate.pop()
-                    if line[line.__len__() - 1] == '\n':
-                        line = line[:line.__len__() - 1]
-                    temp += line
-                    certificate.append(temp)
-            if mark == 7:
+            if mark == 11:
                 if line[0] == '#' or skill.__len__() == 0:
                     temp = line[1:]
                     if temp[temp.__len__() -1] == '\n':
@@ -253,14 +247,76 @@ def getResume():
                     skill.append(temp)
                 else:
                     temp = skill.pop()
-                    if line[line.__len__() - 1] == '\n':
+                    if line[line.__len__() -1] == '\n':
                         line = line[:line.__len__() - 1]
                     temp += line
                     skill.append(temp)
+            if mark == 12:
+                if line[0] == '#' or qiye.__len__() == 0:
+                    temp = line[1:]
+                    if temp[temp.__len__() -1] == '\n':
+                        temp = temp[:temp.__len__() -1]
+                    qiye.append(temp)
+                else:
+                    temp = qiye.pop()
+                    if line[line.__len__() -1] == '\n':
+                        line = line[:line.__len__() - 1]
+                    temp += line
+                    qiye.append(temp)
+            if mark == 13:
+                if line[0] == '#' or geren.__len__() == 0:
+                    temp = line[1:]
+                    if temp[temp.__len__() -1] == '\n':
+                        temp = temp[:temp.__len__() -1]
+                    geren.append(temp)
+                else:
+                    temp = geren.pop()
+                    if line[line.__len__() -1] == '\n':
+                        line = line[:line.__len__() - 1]
+                    temp += line
+                    geren.append(temp)
+            if mark == 14:
+                if line[0] == '#' or rongyu.__len__() == 0:
+                    temp = line[1:]
+                    if temp[temp.__len__() -1] == '\n':
+                        temp = temp[:temp.__len__() -1]
+                    rongyu.append(temp)
+                else:
+                    temp = rongyu.pop()
+                    if line[line.__len__() -1] == '\n':
+                        line = line[:line.__len__() - 1]
+                    temp += line
+                    rongyu.append(temp)
+            if mark == 15:
+                if line[0] == '#' or xiangmu.__len__() == 0:
+                    temp = line[1:]
+                    if temp[temp.__len__() -1] == '\n':
+                        temp = temp[:temp.__len__() -1]
+                    xiangmu.append(temp)
+                else:
+                    temp = xiangmu.pop()
+                    if line[line.__len__() -1] == '\n':
+                        line = line[:line.__len__() - 1]
+                    temp += line
+                    xiangmu.append(temp)
+            if mark == 16:
+                if line[0] == '#' or ziwo.__len__() == 0:
+                    temp = line[1:]
+                    if temp[temp.__len__() -1] == '\n':
+                        temp = temp[:temp.__len__() -1]
+                    ziwo.append(temp)
+                else:
+                    temp = ziwo.pop()
+                    if line[line.__len__() -1] == '\n':
+                        line = line[:line.__len__() - 1]
+                    temp += line
+                    ziwo.append(temp)
     except Exception as e:
         print(e)
         return {"code": 308, "message": "信息读取失败，请稍后再试"}
-    data = {"性别":gender,"求职意向":intention,"自我评价":appraise,"教育背景":educational_background,"工作经历":work_experience,"在校经历":school_experience,"资格证书":certificate,"职业技能":skill}
+    data = {"姓名":name,"性别":gender,"年龄":age,"现居":place,"学历":xueli,"学校专业":zhaunye,
+            "主修课程":zhuxiu,"电话":phone,"邮箱":email,"期望职业":intention,"工作经验":work_experience,"技能":skill,
+            "企业项目":qiye,"个人项目":geren,"荣誉":rongyu,"项目经验":xiangmu,"自我评价":ziwo}
     return {"code": 200, "message": "success","resume":data}
 
 

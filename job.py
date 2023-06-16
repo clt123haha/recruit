@@ -58,8 +58,10 @@ def get():
 @bp.route("/return_message")
 @allow_cross_domain
 def get_message():
+    print('request.data                                   sdvvds')
     data = []
     string_list = ["detail","need","well"]
+    print(request.args.get("json"))
     jobList = session.query(Jobmessage).all()
     for job in jobList:
         id = job.id
